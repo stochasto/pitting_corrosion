@@ -1,0 +1,60 @@
+# Pitting Model
+
+## Table of contents
+* [Project information](#Project-information)
+* [Software](#Software)
+* [Setup](#setup)
+* [References](#References)
+
+
+
+## Project information
+* 2-D pitting model for propagation stage of single and multiple pits. The model is based on the set of mass transport of charged ions in electrolyte with the moving boundary tracked by the phase field method under galvanostatic conditions. 
+* Model is solved using the commercial FEA code from Comsol Multiphysics. Simulated electrochemical data is processed using the python code and visualized in Matlab. 
+* Documents and example script for Comsol Livelink with Matlab are provided for references.
+
+External Comsol Files for Single Pit Growth and Multi Pits Growth: https://www.dropbox.com/sh/b4jcgw6fe0p2937/AAB22UvhNYBiD-e7IHGHg-qpa?dl=0
+
+## Software
+Project is created with:
+* Comsol Multiphysics: 6.0
+* Matlab: 2021b
+* Jupyter Notebook
+
+## Setup
+To run this project, download the comsol file from dropbox (https://www.dropbox.com/sh/b4jcgw6fe0p2937/AAB22UvhNYBiD-e7IHGHg-qpa?dl=0) and follow below steps:
+* Step 1: Establish the initial conditions for transient study. 
+  * Set i0=i_o_Me in ***Component-> Definitions -> Variable 1: pit kinetics***
+  ![Step 1](https://github.com/anhvtnguyen/Pitting-Model/blob/main/Images/Step1.png)
+
+
+  * Run Study 1 at different applied current (I_apply) using auxiliary sweep to find solution at which the criteria for pit stability is satisfied 
+    C<sub>Me,bottom</sub> >= 70% C<sub>sat</sub>
+  * Visualise the C<sub>Me</sub> as function of pit surface and I_apply via plot “Study 1: cMe vs x” in Results section
+* Step 2: Run the transient study at the specified applied current 
+  * Set i0=i_(o_Me )*f_activate2 in ***Component-> Definitions -> Variable 1: pit kinetics*** to add the sigmoid function for repassivation in the transient study for pit propagation
+  * Set epsl function based on the applied current. 
+   * At a low applied current when pit either repassivated completely or when new pit grows within the initial pit, there will be converging issue if epsl is too small or the change of the value is too steep at the interface. Switch to the following option: epsl with no step function or relax the step function by increasing the value of the transition zone in the step function setting  
+   * At moderate to high applied current when pit can perforate the metal surface, since there is a small leak to the pseudo-phase, the step function is used to limit the values of epsl at the interface. Thus, switch to the following option: epsl with step function. 
+   * Note: the parameters of the step function should be calibrated to limit the leakage issue and prevent the converging issue when epsl is too steep or too small.
+  * Set the initial values for the transient study in ***Study 2->Time Dependent -> Values of dependent variables*** using the solution obtained from step 1, at which the pit stability criteria is satisfied 
+   ![Step 2](https://github.com/anhvtnguyen/Pitting-Model/blob/main/Images/Step2.png)
+ * Step 3: Export data to data_all.txt file.
+   ![Step 3](https://github.com/anhvtnguyen/Pitting-Model/blob/main/Images/Step3.png)
+ * Step 4: Process data_all.txt file using the codes in the following order: 
+    1.	process_data_pit_simulation.ipynb (Jupyter notebook)
+    2.	Process_Nearest_Neighbor_data_surface.ipynb (Jupyter notebook)
+    3.	Phase_field_plot_singlepit.mlx (Matlab)
+    4.	ExtractPlotFromComsol.mlx (Comsol Livelink with Matlab)
+
+***Notes***
+* The values of I_apply in COMSOL is calculated based on the thickness of the pseudo-third dimension. Here, it is specified to be d<sub>z</sub>=10 μm in the model for numerical converging. Assuming the thickness of 1 μm, I=I_apply/d<sub>z</sub> and will not affect the result of the model. 
+* pcp_v1_run_shell_script.sh is the example script to run in the cluster.
+## References
+References for input parameters
+
+1.	J.S. Newman, K.E. Thomas-Alyea, Electrochemical Systems, third ed., John Wiley & Sons, Inc., Hoboken, New Jersey, 284 (2004).
+2.	N. J. Laycock, S. P. White, Computer Simulation of Single Pit Propagation in Stainless Steel under Potentiostatic Control, J. Electrochem. Soc., 148, B264 (2001).
+3.	G. T. Gaudet, W. T. Mo, T. A. Hatton, J. W. Tester, J. Tilly, H. S. Isaacs, R. C. Newman, Mass Transfer and Electrochemical Kinetic Interactions in Localized Pitting Corrosion, AIChE J., 949 (1986).
+4.	W. Mai, S. Soghrati, New Phase Field Model for Simulating Galvanic and Pitting Corrosion Processes, Electrochim. Acta., 260, 290 (2018).
+
