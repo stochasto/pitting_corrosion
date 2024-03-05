@@ -55,10 +55,13 @@ else
 end
 
 if (height(subFinal) > 1)
-    iApply = subFinal(:,5);
-    w = subFinal(:,6);
-    d = subFinal(:,8);
+    % Fit iApply and width 
+    iApply = subFinal(subFinal(:,6)~=0,5);
+    w = subFinal(subFinal(:,6)~=0,6);
     pWidth = polyfit(iApply,w,1);
+    % Fit iApply and depth
+    iApply = subFinal(subFinal(:,8)~=0,5);
+    d = subFinal(subFinal(:,8)~=0,8);
     pDepth = polyfit(iApply,d,1);
     wSlopeWithI = pWidth(1);
     wIntercept = pWidth(2);

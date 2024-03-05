@@ -65,12 +65,22 @@ Area_Inclusions=pi*r.^2.*(1-cosTheta.^2);
 % is determined. This file has: first column radius, for each radius there
 % are a few angles, for each angle there are a set of applied currents, for
 % each current there is a pit bottom concentration.
-initFile = 'result_std1_1pit.xlsx';
+%initFile = 'result_std1_1pit.xlsx';
 
 % initCurrents is the result of processing initFile. This contains, for
 % each radius, a set of angles and for each angle, there is a min current
 % at which Critical conc of 2800 is reached. 
-initCurrents = get_init_currents(initFile);
+%initCurrents = get_init_currents(initFile);
+
+%initCurrents were earlier being read from a file and processing this with
+%get_init_currents. However, accurate simulations have been done for single
+%pits for radii 2 to 10 microns and angles 15 to 60 degrees. It has been
+%determined what the exact min current is for each geometry for growth.
+%This result is in the mincurrentdata sheet of the file alldata_0mics.xlsx. First col is
+%radius, second is angle and third is the min growth current. So,
+%initCurrents is just the result of reading this file
+%initCurrents = readmatrix('single_pit_mincurrents.xlsx');
+initCurrents = readmatrix('alldata_0mics.xlsx','Sheet','minCurrentData');
 
 % In initCurrents, there is a list of angles for each radius and the
 % corresponding current. A linear relation exists between angles and min
@@ -81,8 +91,8 @@ rLinTheta = get_linear_theta_current(initCurrents);
 % allData and minCurrentData need to be read for each given dpit. For this, the appropriate variables are created and
 % files are read. The variables and filenames have to follow the convention below.
 
-dPits = [ '2mics'; '5mics'];
-dPitsVal = [2e-6 5e-6];
+dPits = [ '0mics'; '2mics'; '5mics'; '8mics'];
+dPitsVal = [0e-6 2e-6 5e-6 8e-6];
 numDpits = size(dPits,1);
 allDataCell = cell(numDpits,1);
 minDataCell = cell(numDpits,1);
@@ -93,8 +103,13 @@ for i = 1:1:numDpits
     minDataCell{i} = readmatrix(allDataFile,'Sheet','minCurrentData');
     
     % sort rows
-    allDataCell{i} = sortrows(allDataCell{i},[1,2,3,4,5]);
-    minDataCell{i} = sortrows(minDataCell{i},[1,2,3,4]);
+    if (i > 1)
+        allDataCell{i} = sortrows(allDataCell{i},[1,2,3,4,5]);
+        minDataCell{i} = sortrows(minDataCell{i},[1,2,3,4]);
+    else
+        allDataCell{i} = sortrows(allDataCell{i},[1,2,3]);
+        minDataCell{i} = sortrows(minDataCell{i},[1,2]);
+    end
 end
 
 total_inclusions_area = sum(Area_Inclusions)
@@ -171,7 +186,7 @@ growthCurrent = zeros(Ni,1);
 % clusterCell, i'th element is a cell with indices of inclusions part of the i'th cluster. In the beginning,
 % consider each pit a 1-pit cluster. First column contains the array of indices of constituent nucleations. Other
 % columns contain rx, ry of center, width and depth
-clusterCell = cell(Ni,10);
+clusterCell = cell(Ni,11);
 for i = 1:1:Ni
     clusterCell{i,1} = i;
     clusterCell{i,2} = rx(i);
@@ -183,6 +198,7 @@ for i = 1:1:Ni
     clusterCell{i,8} = 0; % Minimum current, very important parameter 
     clusterCell{i,9} = 0; % If cluster has been checked
     clusterCell{i,10} = theta(i); % Initial angle
+    clusterCell{i,11} = 0; % lifetime
 end
 
 distMatrix = zeros(Ni,3);
@@ -195,6 +211,7 @@ pitCounts.growth = zeros(nTimes,1);
 pitCounts.mergers = zeros(nTimes,1);
 pitCounts.repassive = zeros(nTimes,1);
 pitCounts.consumed = zeros(nTimes,1);
+pitCounts.failedInitiations = zeros(nTimes,1);
 
 dimList.time = timer;
 dimList.depthList = cell(nTimes,1);
@@ -210,7 +227,7 @@ dimList.maxWidth = zeros(nTimes,1);
 
 %% Save
 nSave = min(nTimes,10);
-outPath = 'outFiles';
+outPath = 'C:\Users\Vishal.Metri\Documents\pitting\data\results_galvano';
 outPrefix = 'c';
 saveFreq = floor(nTimes/nSave);
 
@@ -221,6 +238,7 @@ for timestepcount=2:1:nTimes
     totalMergers = 0;
     totalRepassive = 0;
     totalConsumed = 0;
+    totalFailedInitiations = 0;
     %timestepcount=timestepcount+1;
     q=1-exp(-gam*timer(timestepcount));
     
@@ -245,10 +263,10 @@ for timestepcount=2:1:nTimes
     %nPresent(timestepcount) = n_nucleation_instant;
     
     % Set initial growth currents to zero in the beginning
-    growthCurrent = zeros(Ni,1);
+    %growthCurrent = zeros(Ni,1);
     
     for i=1:Ni
-        clusterCell{i,8} = 0; % Set minimum current requirement to 0 initially
+        %clusterCell{i,8} = 0; % Set minimum current requirement to 0 initially
         if ((~isInitiated(i)) && (n_nucleation_instant_inclusions > 0) && (~isConsumed(i)))
             z = n_nucleation_instant_inclusions*Area_Inclusions(i)/inclusions_area;
             %z = n_nucleation_instant_inclusions*Area_Inclusions(i)/total_inclusions_area;
@@ -281,6 +299,7 @@ for timestepcount=2:1:nTimes
                  radInd = find( rLinTheta(:,1) >= r(i),1,'first');
                  % Initial current required for growth is determined from linear fit of theta and current from rLinTheta
                  growthCurrent(i) = rLinTheta(radInd,2)*theta(i) + rLinTheta(radInd,3);
+                 clusterCell{i,8} = growthCurrent(i);
             end    
         end    
     end
@@ -334,41 +353,47 @@ for timestepcount=2:1:nTimes
     % Some clusters have been allocated a pair at this point. However, there could be a few with no pairs and so will
     % grow as stand alone pits. Loop over clusters, determine minimum current of each pair or standalone
     
-    for i = 1:1:Ni
-        %if ( (clusterCell{i,1} ~= -1) & (isInitiated(i)) & (~clusterCell{i,9}) )
-        if ( (max(clusterCell{i,1}) > 0) & (isInitiated(i)) & (~clusterCell{i,9}) )
-            % Check if cluster has been paired
-            if (clusterCell{i,6})
-                j = clusterCell{i,6}; % Index of other cluster
-                %fprintf('Pairs %d %d\n',i,j)
-                % Mark  both i and j clusters as checked
-                clusterCell{i,9} = 1; 
-                clusterCell{j,9} = 1;
-                % Allocate min currents, check growthCurrent
-                if (growthCurrent(i) && ~growthCurrent(j))
-                    clusterCell{i,8} = growthCurrent(i);
-                    clusterCell{j,8} = allocate_single_current(clusterCell,j,minDataCell{2});
-                elseif (~growthCurrent(i) && growthCurrent(j))
-                    clusterCell{j,8} = growthCurrent(j);
-                    clusterCell{i,8} = allocate_single_current(clusterCell,i,minDataCell{2});
-                elseif (growthCurrent(i) && growthCurrent(j))
-                    clusterCell{i,8} = growthCurrent(i);
-                    clusterCell{j,8} = growthCurrent(j);
-                else
-                    clusterCell{i,8} = allocate_pair_current(clusterCell,i,j,minDataCell{1});
-                    clusterCell{j,8} = 0; % Current already allocated to i
-                end
-            else
-                clusterCell{i,9} = 1; 
-                %fprintf('Standalone %d\n',i)
-                if (growthCurrent(i))
-                    clusterCell{i,8} = growthCurrent(i);
-                else
-                    clusterCell{i,8} = allocate_single_current(clusterCell,i,minDataCell{2});
-                end
-            end
-        end
-    end
+    % The minimum current allocation rule must change. Each pit, when it first starts growing, is given a mincurrent 
+    % according to rLinTheta. This must stay constant throughout the simulation. The min current required for growth 
+    % is the value determined from single pit simulations in the sheet single_pit_mincurrents. If a cluster is paired
+    % with another one, the mincurrents do not change. 
+
+    
+%     for i = 1:1:Ni
+%         %if ( (clusterCell{i,1} ~= -1) & (isInitiated(i)) & (~clusterCell{i,9}) )
+%         if ( (max(clusterCell{i,1}) > 0) & (isInitiated(i)) & (~clusterCell{i,9}) )
+%             % Check if cluster has been paired
+%             if (clusterCell{i,6})
+%                 j = clusterCell{i,6}; % Index of other cluster
+%                 %fprintf('Pairs %d %d\n',i,j)
+%                 % Mark  both i and j clusters as checked
+%                 clusterCell{i,9} = 1; 
+%                 clusterCell{j,9} = 1;
+%                 % Allocate min currents, check growthCurrent
+%                 if (growthCurrent(i) && ~growthCurrent(j))
+%                     clusterCell{i,8} = growthCurrent(i);
+%                     clusterCell{j,8} = allocate_single_current(clusterCell,j,minDataCell{2});
+%                 elseif (~growthCurrent(i) && growthCurrent(j))
+%                     clusterCell{j,8} = growthCurrent(j);
+%                     clusterCell{i,8} = allocate_single_current(clusterCell,i,minDataCell{2});
+%                 elseif (growthCurrent(i) && growthCurrent(j))
+%                     clusterCell{i,8} = growthCurrent(i);
+%                     clusterCell{j,8} = growthCurrent(j);
+%                 else
+%                     clusterCell{i,8} = allocate_pair_current(clusterCell,i,j,minDataCell{1});
+%                     clusterCell{j,8} = 0; % Current already allocated to i
+%                 end
+%             else
+%                 clusterCell{i,9} = 1; 
+%                 %fprintf('Standalone %d\n',i)
+%                 if (growthCurrent(i))
+%                     clusterCell{i,8} = growthCurrent(i);
+%                 else
+%                     clusterCell{i,8} = allocate_single_current(clusterCell,i,minDataCell{2});
+%                 end
+%             end
+%         end
+%     end
     
     % All minCurrents are determined. Currents are now allocated to each cluster, growth rates determined and pits are
     % grown along with mergers.
@@ -404,30 +429,114 @@ for timestepcount=2:1:nTimes
         %break % If there is no current, kill the simulation
     end
     
-    
-    
-  
     for i = 1:1:Ni
         % Check if cluster is initiatated, not part of a cluster and has a growth current
         %if ( (clusterCell{i,1} ~= -1) & (isInitiated(i)) & (clusterCell{i,8}) )
         % A cluster is growing if it has a positive index in the first column and is initiated. In addition, we need to
         % avoid double counting a pair, so if an i-j pair is detected, the min current for the j'th cluster has been set to
         % zero earlier. All these are checked below.
-        if ( (max(clusterCell{i,1}) > 0) & (isInitiated(i)) & (clusterCell{i,8}) )
+        growingInds = zeros(2,1);
+        growingCurrs = zeros(2,1);
+        if ( (max(clusterCell{i,1}) > 0) & (isInitiated(i)) & (clusterCell{i,8}) & (~clusterCell{i,9}) )
+            clusterCell{i,9} = 1; % checked i
             % Check if cluster is paired or growing stand-alone
             if ( clusterCell{i,6})
                 j = clusterCell{i,6};
-                [wSlope,wIntercept,dSlope,dIntercept] = get_pair_rates(clusterCell,i,j,allDataCell{1}); 
-                iCurrent = numI*currs(currs(:,1)==i,2) + currs(currs(:,1)==i,3); % Important: Current allocated to i'th cluster
-                if (iCurrent == 0)
-                    clusterCell{i,1} = -2; % Pit repassivates
-                    clusterCell{j,1} = -2; % Pit repassivates
-                    totalRepassive = totalRepassive + 2;
-                    continue
-                else
+                clusterCell{j,9} = 1; % checked j
+                iC_i = numI*currs(currs(:,1)==i,2) + currs(currs(:,1)==i,3); % Important: Current allocated to i'th cluster
+                iC_j = numI*currs(currs(:,1)==j,2) + currs(currs(:,1)==j,3); % Important: Current allocated to j'th cluster
+                if ((iC_i) & (iC_j)) % both i and j have enough current to grow, so pair growth is done
+                    growingInds(1) = i;
+                    growingInds(2) = j;
+                    growingCurrs(1) = iC_i;
+                    growingCurrs(2) = iC_j;
                     totalGrowing = totalGrowing + 2;
+                    clusterCell{i,11} = clusterCell{i,11} + timeStep;
+                    clusterCell{j,11} = clusterCell{j,11} + timeStep;
+                elseif ((iC_i) & ~(iC_j)) % i grows and j repassivates
+                    growingInds(1) = i; % Mark i for growth
+                    growingCurrs(1) = iC_i;
+                    if (clusterCell{j,11}) % If pit has been growing, it has a lifetime
+                        clusterCell{j,1} = -2; % j repassivates
+                        totalRepassive = totalRepassive + 1;
+                    else
+                        clusterCell{j,1} = -4; % failed initiation
+                        totalFailedInitiations = totalFailedInitiations + 1;
+                    end
+                    totalGrowing = totalGrowing + 1;
+                    clusterCell{i,11} = clusterCell{i,11} + timeStep;
+                elseif (~(iC_i) & (iC_j)) % j grows and i repassivates
+                    growingInds(1) = j; % Mark j for growth
+                    growingCurrs(1) = iC_j;
+                    if (clusterCell{i,11}) % If pit has been growing, it has a lifetime
+                        clusterCell{i,1} = -2; % i repassivates
+                        totalRepassive = totalRepassive + 1;
+                    else
+                        clusterCell{i,1} = -4; % failed initiation
+                        totalFailedInitiations = totalFailedInitiations + 1;
+                    end
+                    totalGrowing = totalGrowing + 1;
+                    clusterCell{j,11} = clusterCell{j,11} + timeStep;
+                else % both i and j repassivate
+                    if (clusterCell{i,11}) % If pit has been growing, it has a lifetime
+                        clusterCell{i,1} = -2; % i repassivates
+                        totalRepassive = totalRepassive + 1;
+                    else
+                        clusterCell{i,1} = -4; % failed initiation
+                        totalFailedInitiations = totalFailedInitiations + 1;
+                    end
+                    if (clusterCell{j,11}) % If pit has been growing, it has a lifetime
+                        clusterCell{j,1} = -2; % j repassivates
+                        totalRepassive = totalRepassive + 1;
+                    else
+                        clusterCell{j,1} = -4; % failed initiation
+                        totalFailedInitiations = totalFailedInitiations + 1;
+                    end
+                    continue % continue the loop since both repassivate and there is no growth
                 end
+            else % single unpaired cluster
+                iC_i = numI*currs(currs(:,1)==i,2) + currs(currs(:,1)==i,3); % Important: Current allocated to i'th cluster
+                if (iC_i)
+                    growingInds(1) = i;
+                    growingCurrs(1) = iC_i;
+                    clusterCell{i,11} = clusterCell{i,11} + timeStep;
+                    totalGrowing = totalGrowing + 1;
+                else
+                    if (clusterCell{i,11}) % If pit has been growing, it has a lifetime
+                        clusterCell{i,1} = -2; % i repassivates
+                        totalRepassive = totalRepassive + 1;
+                    else
+                        clusterCell{i,1} = -4; % failed initiation
+                        totalFailedInitiations = totalFailedInitiations + 1;
+                    end
+                    continue
+                end
+            end
+            % Analyze growingInds and growingCurrs. If execution has reached here, it means that either or both of the
+            % pits are growing. If both are growing, then growingInds has both non-zero entries, else only the first
+            % entry is non-zero, and this could be either i or j.
+            if growingInds(2) ~= 0 % both i and j are growing
+                % determine dPit to choose the correct allDataCell. We have data for dPit 2, 5 and 8e-6. By taking
+                % midpoints of these intervals, the correct dPit sheet to be sent are determined
+                dPit = clusterCell{i,7} - (clusterCell{i,4} + clusterCell{j,4})*0.5;
+                if (dPit <= 3.5e-6) % use dPit_2microns
+                    [wSlope,wIntercept,dSlope,dIntercept] = get_pair_rates(clusterCell,i,j,allDataCell{2});
+                elseif ((dPit > 3.5e-6) & (dPit < 6.5e-6)) % use dPit_5microns
+                    [wSlope,wIntercept,dSlope,dIntercept] = get_pair_rates(clusterCell,i,j,allDataCell{3});
+                else % use dPit_8microns
+                    [wSlope,wIntercept,dSlope,dIntercept] = get_pair_rates(clusterCell,i,j,allDataCell{4});
+                end
+                %iCurrent = numI*currs(currs(:,1)==i,2) + currs(currs(:,1)==i,3); % Important: Current allocated to i'th cluster
+%                 if (iCurrent == 0)
+%                     clusterCell{i,1} = -2; % Pit repassivates
+%                     clusterCell{j,1} = -2; % Pit repassivates
+%                     totalRepassive = totalRepassive + 2;
+%                     continue
+%                 else
+%                     totalGrowing = totalGrowing + 2;
+%                 end
                 %fprintf('Here\n')
+                iCurrent = sum(growingCurrs); % add both i and j currents to determine slopes
                 newWidthRate = wSlope*iCurrent + wIntercept;
                 newDepthRate = dSlope*iCurrent + dIntercept;
             
@@ -441,25 +550,27 @@ for timestepcount=2:1:nTimes
                 dimList.depthList{timestepcount} = [dimList.depthList{timestepcount} clusterCell{i,5} clusterCell{j,5}];
                 dimList.widthList{timestepcount} = [dimList.widthList{timestepcount} clusterCell{i,4} clusterCell{j,4}];
             else
-                [wSlope,wIntercept,dSlope,dIntercept] = get_single_rates(clusterCell,i,allDataCell{2});
-                iCurrent = numI*currs(currs(:,1)==i,2) + currs(currs(:,1)==i,3); % Important: Current allocated to i'th cluster
-                if (iCurrent == 0)
-                    clusterCell{i,1} = -2; % Pit repassivates
-                    totalRepassive = totalRepassive + 1;
-                    continue
-                else
-                    totalGrowing = totalGrowing + 1;
-                end
+                ind = growingInds(1); % index of growing cluster, could be i or j
+                [wSlope,wIntercept,dSlope,dIntercept] = get_single_rates(clusterCell,ind,allDataCell{1});
+                iCurrent = growingCurrs(1);
+                %iCurrent = numI*currs(currs(:,1)==ind,2) + currs(currs(:,1)==ind,3); % Important: Current allocated to i'th cluster
+%                 if (iCurrent == 0)
+%                     clusterCell{i,1} = -2; % Pit repassivates
+%                     totalRepassive = totalRepassive + 1;
+%                     continue
+%                 else
+%                     totalGrowing = totalGrowing + 1;
+%                 end
                 %fprintf('Here\n')
                 newWidthRate = wSlope*iCurrent + wIntercept;
                 newDepthRate = dSlope*iCurrent + dIntercept;
                 
                 % Update width and depth
-                clusterCell{i,4} = max(clusterCell{i,4} + newWidthRate*timeStep,1e-12);
-                clusterCell{i,5} = max(clusterCell{i,5} + newDepthRate*timeStep,1e-12);
+                clusterCell{ind,4} = max(clusterCell{ind,4} + newWidthRate*timeStep,1e-12);
+                clusterCell{ind,5} = max(clusterCell{ind,5} + newDepthRate*timeStep,1e-12);
                 % Store width and depth in dimList
-                dimList.depthList{timestepcount} = [dimList.depthList{timestepcount} clusterCell{i,5}];
-                dimList.widthList{timestepcount} = [dimList.widthList{timestepcount} clusterCell{i,4}];
+                dimList.depthList{timestepcount} = [dimList.depthList{timestepcount} clusterCell{ind,5}];
+                dimList.widthList{timestepcount} = [dimList.widthList{timestepcount} clusterCell{ind,4}];
             end
         end
     end
@@ -476,7 +587,9 @@ for timestepcount=2:1:nTimes
                %if ( (i1 > 0) & (j1 > 0) & (isInitiated(i1)) & (isInitiated(j1)) ) % Both are growing clusters
                if ( (max(clusterCell{j,1}) > 0) & (isInitiated(j)) ) % Both i and j are growing clusters
                    rij = sqrt((clusterCell{i,2} - clusterCell{j,2})^2 + (clusterCell{i,3} - clusterCell{j,3})^2);
-                   r0 = (clusterCell{i,4} + clusterCell{j,4})*0.5;
+                   r1 = clusterCell{i,4}*0.5;
+                   r2 = clusterCell{j,4}*0.5;
+                   r0 = r1 + r2;
                    if ( rij < r0 )
                        totalMergers = totalMergers + 1;
                        clusterCell{i,1} = [clusterCell{i,1} clusterCell{j,1}];
@@ -486,17 +599,18 @@ for timestepcount=2:1:nTimes
                        clusterCell{i,2} = (clusterCell{i,2} + clusterCell{j,2})*0.5;
                        clusterCell{i,3} = (clusterCell{i,3} + clusterCell{j,3})*0.5;
                        % New theta preserves area
-                       x = (0.5*clusterCell{i,4}*clusterCell{j,4} + 0.25*( (clusterCell{i,4}*cosd(clusterCell{i,10}))^2 ...
-                           + (clusterCell{j,4}*cosd(clusterCell{j,10}))^2))/(r0^2);
-                       if (x > 1)
-                           fprintf('x is %f\n',x)
+                       %x = (0.5*clusterCell{i,4}*clusterCell{j,4} + 0.25*( (clusterCell{i,4}*cosd(clusterCell{i,10}))^2 ...
+                       %    + (clusterCell{j,4}*cosd(clusterCell{j,10}))^2))/(r0^2);
+                       cost = (cosd(clusterCell{i,10})*(r1^2) + cosd(clusterCell{j,10})*(r2^2) - 2*r1*r2)/(r1 + r2)^2;
+                       if (cost > 1)
+                           fprintf('cos theta is %f\n',cost)
                            fprintf('r0 %f\n',r0)
-                           fprintf('r1 %f\n',0.5*clusterCell{i,4})
-                           fprintf('r2 %f\n',0.5*clusterCell{j,4})
+                           fprintf('r1 %f\n',r1)
+                           fprintf('r2 %f\n',r2)
                            fprintf('theta 1 %f\n', clusterCell{i,10})
                            fprintf('theta 2 %f\n',clusterCell{j,10})
                        end
-                       cost = sqrt(x);
+                       %cost = sqrt(x);
                        clusterCell{i,10} = acosd(cost); % New angle in degrees
                        % New width is sum of old widths
                        clusterCell{i,4} = r0*2;
@@ -532,6 +646,7 @@ for timestepcount=2:1:nTimes
     pitCounts.mergers(timestepcount) = totalMergers;
     pitCounts.repassive(timestepcount) = totalRepassive;
     pitCounts.consumed(timestepcount) = totalConsumed;
+    pitCounts.failedInitiations(timestepcount) = totalFailedInitiations;
     
     %fprintf('Time %d\n',timestepcount);
     if (dimList.depthList{timestepcount})
@@ -541,10 +656,10 @@ for timestepcount=2:1:nTimes
         dimList.maxWidth(timestepcount) = max(dimList.widthList{timestepcount});
     end
     
-    if (mod(timestepcount,saveFreq) == 0)
-        saveFilePath = strcat(outPath,'\',outPrefix,'_',num2str(timestepcount),'.xlsx');
-        saveGalvano(clusterCell,saveFilePath,Ni,isInitiated);
-    end
+%     if (mod(timestepcount,saveFreq) == 0)
+%         saveFilePath = strcat(outPath,'\',outPrefix,'_',num2str(timestepcount),'.xlsx');
+%         saveGalvano(clusterCell,saveFilePath,Ni,isInitiated);
+%     end
         
 end
 end

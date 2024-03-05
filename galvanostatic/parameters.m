@@ -8,7 +8,7 @@ gridGap = 2.4e-5;
 gridSize = 50;
 A = (gridSize*gridGap)^2;
 
-% Lognormal parameters in micrometers
+% Lognormal parameters 
 mu_log = -1.1239;
 sigma_log = 0.7760;
 
@@ -32,5 +32,7 @@ Hmax = 4; %In Micrometers
 theta_cone = 5;
 
 radiusCheck = 3e-5;
+
+rUniformMax = 1e-5;
 
 %E=0.1;

@@ -16,6 +16,8 @@ for i = 1:1:s
         col = 'y'; % Repassivated
     elseif (c{i,1} == -3)
         col = 'k'; % Consumed, could have been initiated and then repassivated, or uninitiated
+    elseif (c{i,1} == -4)
+        col = 'g'; % failed initiation
     end
     circle(c{i,2},c{i,3},0.5*c{i,4},col);
     hold on

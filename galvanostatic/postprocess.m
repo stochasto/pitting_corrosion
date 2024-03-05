@@ -1,4 +1,4 @@
-function depthPlot = postprocess(pc,dL,c)
+function depthPlot = postprocess(pc,dL,c, savePref, savePath)
 
 nTimes = max(size(pc.time));
 
@@ -30,6 +30,9 @@ end
 
 %% Plotting
 
+% Generate save file path
+savePref1 = strcat(savePath,'\',savePref);
+
 % Plot depth with time of all pits and max depth
 scatter(depthPlot.time,depthPlot.depth,10)
 hold on
@@ -40,6 +43,8 @@ ax.FontName = 'ShellMedium';
 ax.FontSize = 12;
 xlabel('Time (s)')
 ylabel('Depth (m)')
+depthFilePath = strcat(savePref1,'_depths');
+saveas(gcf,depthFilePath,'fig')
 
 % Plot width with time of all pits and max width
 figure
@@ -52,16 +57,20 @@ ax.FontName = 'ShellMedium';
 ax.FontSize = 12;
 xlabel('Time (s)')
 ylabel('Width (m)')
+widthFilePath = strcat(savePref1,'_widths');
+saveas(gcf,widthFilePath,'fig')
     
-% Plot number of initiations with time
+% Plot number of nucleations with time
 figure
 plot(pc.time,pc.inits,'LineWidth',1.5)
-legend('Initiations')
+legend('Nucleations')
 ax = gca;
 ax.FontName = 'ShellMedium';
 ax.FontSize = 12;
 xlabel('Time (s)')
-ylabel('Number of initiations')
+ylabel('Number of nucleations')
+nuclFilePath = strcat(savePref1,'_nucleations');
+saveas(gcf,nuclFilePath,'fig')
 
 % Plot number of growing clusters
 figure
@@ -72,6 +81,9 @@ ax.FontName = 'ShellMedium';
 ax.FontSize = 12;
 xlabel('Time (s)')
 ylabel('Number of clusters/pits')
+growingFilePath = strcat(savePref1,'_growing');
+saveas(gcf,growingFilePath,'fig')
+
 
 % Plot number of mergers
 figure
@@ -82,6 +94,8 @@ ax.FontName = 'ShellMedium';
 ax.FontSize = 12;
 xlabel('Time (s)')
 ylabel('Number of mergers')
+mergerFilePath = strcat(savePref1,'_mergers');
+saveas(gcf,mergerFilePath,'fig')
 
 % Plot number of repassivations
 figure
@@ -92,6 +106,8 @@ ax.FontName = 'ShellMedium';
 ax.FontSize = 12;
 xlabel('Time (s)')
 ylabel('Number of repassivations')
+repassFilePath = strcat(savePref1,'_repassivations');
+saveas(gcf,repassFilePath,'fig')
  
 % Plot number of consumed clusters/pits/inclusions
 figure
@@ -102,16 +118,32 @@ ax.FontName = 'ShellMedium';
 ax.FontSize = 12;
 xlabel('Time (s)')
 ylabel('Number of consumptions')
+consumedFilePath = strcat(savePref1,'_comsumptions');
+saveas(gcf,consumedFilePath,'fig')
 
-% Statistics of pit growths and deaths in a bar graph
+% Plot number of failed initiations
 figure
-bar_y = [pc.inits(end) sum(pc.mergers) sum(pc.repassive) sum(pc.consumed)]
-b = bar(bar_y)
-b.BarWidth = 0.5;
-set(gca,'XTickLabel',{'Total initiations','Total mergers','Total repassivations','Total consumptions'})
+plot(pc.time,pc.failedInitiations,'LineWidth',2)
+legend('Failed Initiations')
 ax = gca;
 ax.FontName = 'ShellMedium';
 ax.FontSize = 12;
+xlabel('Time (s)')
+ylabel('Number of failed initiations')
+failIniFilePath = strcat(savePref1,'_failed_initiations');
+saveas(gcf,failIniFilePath,'fig')
+
+% Statistics of pit growths and deaths in a bar graph
+figure
+bar_y = [pc.inits(end) sum(pc.failedInitiations) sum(pc.mergers) sum(pc.repassive) sum(pc.consumed)]
+b = bar(bar_y)
+b.BarWidth = 0.5;
+set(gca,'XTickLabel',{'Total nucleations', 'Total failed initiations', 'Total mergers','Total repassivations','Total consumptions'})
+ax = gca;
+ax.FontName = 'ShellMedium';
+ax.FontSize = 12;
+barFilePath = strcat(savePref1,'_bar');
+saveas(gcf,barFilePath,'fig')
 
 
     
