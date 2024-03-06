@@ -1,0 +1,2 @@
+rpit_1 rpit_2 theta_1 theta_2 I_apply stepzone 
+6e-06 1e-05 0.2617993877991494 0.2617993877991494 2.5e-05 0.25 

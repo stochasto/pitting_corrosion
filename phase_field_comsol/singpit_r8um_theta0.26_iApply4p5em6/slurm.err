@@ -1,0 +1,280 @@
+libfabric:882999:core:core:ofi_hmem_init():209<info> Hmem iface FI_HMEM_CUDA not supported
+libfabric:882999:core:core:ofi_hmem_init():209<info> Hmem iface FI_HMEM_ROCR not supported
+libfabric:882999:core:core:ze_hmem_dl_init():422<warn> Failed to dlopen libze_loader.so
+libfabric:882999:core:core:ofi_hmem_init():214<warn> Failed to initialize hmem iface FI_HMEM_ZE: No data available
+libfabric:882999:core:mr:ofi_default_cache_size():78<info> default cache size=2110672080
+libfabric:882999:core:core:ofi_register_provider():474<info> registering provider: verbs (113.20)
+libfabric:882999:core:core:ofi_register_provider():474<info> registering provider: verbs (113.20)
+libfabric:882999:core:core:ofi_register_provider():474<info> registering provider: tcp (113.20)
+libfabric:882999:core:core:ofi_register_provider():474<info> registering provider: sockets (113.20)
+libfabric:882999:core:core:ofi_hmem_init():209<info> Hmem iface FI_HMEM_CUDA not supported
+libfabric:882999:core:core:ofi_hmem_init():209<info> Hmem iface FI_HMEM_ROCR not supported
+libfabric:882999:core:core:ze_hmem_dl_init():422<warn> Failed to dlopen libze_loader.so
+libfabric:882999:core:core:ofi_hmem_init():214<warn> Failed to initialize hmem iface FI_HMEM_ZE: No data available
+libfabric:882999:core:core:ofi_register_provider():474<info> registering provider: ofi_rxm (113.20)
+libfabric:882999:core:core:ofi_register_provider():474<info> registering provider: psm2 (113.20)
+libfabric:882999:core:core:ofi_register_provider():474<info> registering provider: mlx (1.4)
+libfabric:882999:core:core:ofi_register_provider():474<info> registering provider: ofi_hook_noop (113.20)
+libfabric:882999:core:core:fi_getinfo_():1138<info> Found provider with the highest priority psm2, must_use_util_prov = 0
+libfabric:882999:psm2:core:psmx2_getinfo():523<info> 
+libfabric:882999:psm2:core:psmx2_init_prov_info():254<info> RMA only instance included
+libfabric:882999:psm2:core:psmx2_init_prov_info():268<info> TAG60 instance included
+libfabric:882999:psm2:core:psmx2_init_prov_info():281<info> TAG64 instance included
+libfabric:882999:psm2:core:psmx2_init_lib():234<info> no hfi device is found.
+libfabric:882999:core:core:fi_getinfo_():1201<info> Start regular provider search because provider with the highest priority psm2 can not be initialized
+libfabric:882999:mlx:core:mlx_getinfo():211<info> primary detected device: mlx5_1 
+libfabric:882999:mlx:core:mlx_getinfo():254<info> used inject size = 1024 
+libfabric:882999:mlx:core:mlx_getinfo():301<info> Loaded MLX version 1.15.0
+libfabric:882999:mlx:core:mlx_getinfo():348<warn> MLX: spawn support 0 
+libfabric:882999:core:core:fi_getinfo_():1138<info> Found provider with the highest priority psm2, must_use_util_prov = 0
+libfabric:882999:psm2:core:psmx2_getinfo():523<info> 
+libfabric:882999:psm2:core:psmx2_init_prov_info():201<info> Unsupported endpoint type
+libfabric:882999:psm2:core:psmx2_init_prov_info():203<info> Supported: FI_EP_RDM
+libfabric:882999:psm2:core:psmx2_init_prov_info():205<info> Supported: FI_EP_DGRAM
+libfabric:882999:psm2:core:psmx2_init_prov_info():207<info> Requested: FI_EP_MSG
+libfabric:882999:core:core:fi_getinfo_():1201<info> Start regular provider search because provider with the highest priority psm2 can not be initialized
+libfabric:882999:mlx:core:mlx_getinfo():211<info> primary detected device: mlx5_1 
+libfabric:882999:mlx:core:mlx_getinfo():254<info> used inject size = 1024 
+libfabric:882999:mlx:core:mlx_getinfo():301<info> Loaded MLX version 1.15.0
+libfabric:882999:mlx:core:mlx_getinfo():348<warn> MLX: spawn support 0 
+libfabric:882999:core:core:ofi_layering_ok():1001<info> Need core provider, skipping ofi_rxm
+libfabric:882999:core:core:ofi_hmem_init():209<info> Hmem iface FI_HMEM_CUDA not supported
+libfabric:882999:core:core:ofi_hmem_init():209<info> Hmem iface FI_HMEM_ROCR not supported
+libfabric:882999:core:core:ofi_hmem_init():209<info> Hmem iface FI_HMEM_ZE not supported
+libfabric:882999:core:mr:ofi_default_cache_size():78<info> default cache size=2110672080
+libfabric:882999:verbs:fabric:verbs_devs_print():883<info> list of verbs devices found for FI_EP_MSG:
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():618<info> device mlx5_0: first found active port is 1
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():618<info> device mlx5_0: first found active port is 1
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():618<info> device mlx5_0: first found active port is 1
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():618<info> device mlx5_1: first found active port is 1
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():618<info> device mlx5_1: first found active port is 1
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():618<info> device mlx5_1: first found active port is 1
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():614<warn> device mlx5_2: there are no active ports
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():614<warn> device mlx5_2: there are no active ports
+libfabric:882999:verbs:fabric:vrb_get_device_attrs():614<warn> device mlx5_2: there are no active ports
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #1 mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #2 mlx5_0-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1534<info> hints->ep_attr->rx_ctx_cnt != FI_SHARED_CONTEXT. Skipping XRC FI_EP_MSG endpoints
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #3 mlx5_0-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_MSG
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #4 mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #5 mlx5_1-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1534<info> hints->ep_attr->rx_ctx_cnt != FI_SHARED_CONTEXT. Skipping XRC FI_EP_MSG endpoints
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #6 mlx5_1-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_MSG
+libfabric:882999:verbs:fabric:vrb_get_rai_id():283<info> rdma_create_id: Cannot allocate memory(12)
+libfabric:882999:verbs:fabric:vrb_get_match_infos():1781<info> handling of the socket address fails - -12
+libfabric:882999:verbs:core:vrb_get_match_infos():1801<info> Handling of the addresses fails, the getting infos is unsuccessful
+libfabric:882999:tcp:core:ofi_get_list_of_addr():1776<info> Available addr: 134.144.57.132, iface name: enp33s0f0, speed: 25000
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1619<info> available addr: : fi_sockaddr_in://127.0.0.1:0
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1634<info> available addr: : fi_sockaddr_in6://[::1]:0
+libfabric:882999:tcp:core:util_getinfo_ifs():318<info> Chosen addr for using: 134.144.57.132, speed 25000
+libfabric:882999:core:core:ofi_layering_ok():1007<info> Skipping util;sockets layering
+libfabric:882999:core:core:fi_getinfo_():1138<info> Found provider with the highest priority psm2, must_use_util_prov = 0
+libfabric:882999:psm2:core:psmx2_getinfo():523<info> 
+libfabric:882999:psm2:core:psmx2_init_prov_info():201<info> Unsupported endpoint type
+libfabric:882999:psm2:core:psmx2_init_prov_info():203<info> Supported: FI_EP_RDM
+libfabric:882999:psm2:core:psmx2_init_prov_info():205<info> Supported: FI_EP_DGRAM
+libfabric:882999:psm2:core:psmx2_init_prov_info():207<info> Requested: FI_EP_MSG
+libfabric:882999:core:core:fi_getinfo_():1201<info> Start regular provider search because provider with the highest priority psm2 can not be initialized
+libfabric:882999:mlx:core:mlx_getinfo():211<info> primary detected device: mlx5_1 
+libfabric:882999:mlx:core:mlx_getinfo():254<info> used inject size = 1024 
+libfabric:882999:mlx:core:mlx_getinfo():301<info> Loaded MLX version 1.15.0
+libfabric:882999:mlx:core:mlx_getinfo():348<warn> MLX: spawn support 0 
+libfabric:882999:mlx:core:ofi_check_ep_attr():718<info> Shared rx context not supported
+libfabric:882999:core:core:ofi_layering_ok():1001<info> Need core provider, skipping ofi_rxm
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #1 mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #2 mlx5_0-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_0-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #3 mlx5_0-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_MSG
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #4 mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #5 mlx5_1-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_1-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #6 mlx5_1-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_MSG
+libfabric:882999:verbs:fabric:vrb_get_rai_id():283<info> rdma_create_id: Cannot allocate memory(12)
+libfabric:882999:verbs:fabric:vrb_get_match_infos():1781<info> handling of the socket address fails - -12
+libfabric:882999:verbs:core:vrb_get_match_infos():1801<info> Handling of the addresses fails, the getting infos is unsuccessful
+libfabric:882999:tcp:core:ofi_get_list_of_addr():1776<info> Available addr: 134.144.57.132, iface name: enp33s0f0, speed: 25000
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1619<info> available addr: : fi_sockaddr_in://127.0.0.1:0
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1634<info> available addr: : fi_sockaddr_in6://[::1]:0
+libfabric:882999:tcp:core:util_getinfo_ifs():318<info> Chosen addr for using: 134.144.57.132, speed 25000
+libfabric:882999:core:core:ofi_layering_ok():1007<info> Skipping util;sockets layering
+libfabric:882999:core:core:fi_getinfo_():1138<info> Found provider with the highest priority psm2, must_use_util_prov = 0
+libfabric:882999:psm2:core:psmx2_getinfo():523<info> 
+libfabric:882999:psm2:core:psmx2_init_prov_info():201<info> Unsupported endpoint type
+libfabric:882999:psm2:core:psmx2_init_prov_info():203<info> Supported: FI_EP_RDM
+libfabric:882999:psm2:core:psmx2_init_prov_info():205<info> Supported: FI_EP_DGRAM
+libfabric:882999:psm2:core:psmx2_init_prov_info():207<info> Requested: FI_EP_MSG
+libfabric:882999:core:core:fi_getinfo_():1201<info> Start regular provider search because provider with the highest priority psm2 can not be initialized
+libfabric:882999:mlx:core:mlx_getinfo():211<info> primary detected device: mlx5_1 
+libfabric:882999:mlx:core:mlx_getinfo():254<info> used inject size = 1024 
+libfabric:882999:mlx:core:mlx_getinfo():301<info> Loaded MLX version 1.15.0
+libfabric:882999:mlx:core:mlx_getinfo():348<warn> MLX: spawn support 0 
+libfabric:882999:core:core:ofi_layering_ok():1001<info> Need core provider, skipping ofi_rxm
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #1 mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #2 mlx5_0-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1534<info> hints->ep_attr->rx_ctx_cnt != FI_SHARED_CONTEXT. Skipping XRC FI_EP_MSG endpoints
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #3 mlx5_0-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_MSG
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #4 mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #5 mlx5_1-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1534<info> hints->ep_attr->rx_ctx_cnt != FI_SHARED_CONTEXT. Skipping XRC FI_EP_MSG endpoints
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #6 mlx5_1-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_MSG
+libfabric:882999:verbs:fabric:vrb_get_rai_id():283<info> rdma_create_id: Cannot allocate memory(12)
+libfabric:882999:verbs:fabric:vrb_get_match_infos():1781<info> handling of the socket address fails - -12
+libfabric:882999:verbs:core:vrb_get_match_infos():1801<info> Handling of the addresses fails, the getting infos is unsuccessful
+libfabric:882999:tcp:core:ofi_get_list_of_addr():1776<info> Available addr: 134.144.57.132, iface name: enp33s0f0, speed: 25000
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1619<info> available addr: : fi_sockaddr_in://127.0.0.1:0
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1634<info> available addr: : fi_sockaddr_in6://[::1]:0
+libfabric:882999:tcp:core:util_getinfo_ifs():318<info> Chosen addr for using: 134.144.57.132, speed 25000
+libfabric:882999:core:core:ofi_layering_ok():1007<info> Skipping util;sockets layering
+libfabric:882999:core:core:fi_getinfo_():1138<info> Found provider with the highest priority psm2, must_use_util_prov = 0
+libfabric:882999:psm2:core:psmx2_getinfo():523<info> 
+libfabric:882999:psm2:core:psmx2_init_prov_info():201<info> Unsupported endpoint type
+libfabric:882999:psm2:core:psmx2_init_prov_info():203<info> Supported: FI_EP_RDM
+libfabric:882999:psm2:core:psmx2_init_prov_info():205<info> Supported: FI_EP_DGRAM
+libfabric:882999:psm2:core:psmx2_init_prov_info():207<info> Requested: FI_EP_MSG
+libfabric:882999:core:core:fi_getinfo_():1201<info> Start regular provider search because provider with the highest priority psm2 can not be initialized
+libfabric:882999:mlx:core:mlx_getinfo():211<info> primary detected device: mlx5_1 
+libfabric:882999:mlx:core:mlx_getinfo():254<info> used inject size = 1024 
+libfabric:882999:mlx:core:mlx_getinfo():301<info> Loaded MLX version 1.15.0
+libfabric:882999:mlx:core:mlx_getinfo():348<warn> MLX: spawn support 0 
+libfabric:882999:core:core:ofi_layering_ok():1001<info> Need core provider, skipping ofi_rxm
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #1 mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #2 mlx5_0-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1534<info> hints->ep_attr->rx_ctx_cnt != FI_SHARED_CONTEXT. Skipping XRC FI_EP_MSG endpoints
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #3 mlx5_0-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_MSG
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #4 mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #5 mlx5_1-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1534<info> hints->ep_attr->rx_ctx_cnt != FI_SHARED_CONTEXT. Skipping XRC FI_EP_MSG endpoints
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #6 mlx5_1-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_MSG
+libfabric:882999:verbs:fabric:vrb_get_rai_id():283<info> rdma_create_id: Cannot allocate memory(12)
+libfabric:882999:verbs:fabric:vrb_get_match_infos():1781<info> handling of the socket address fails - -12
+libfabric:882999:verbs:core:vrb_get_match_infos():1801<info> Handling of the addresses fails, the getting infos is unsuccessful
+libfabric:882999:tcp:core:ofi_get_list_of_addr():1776<info> Available addr: 134.144.57.132, iface name: enp33s0f0, speed: 25000
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1619<info> available addr: : fi_sockaddr_in://127.0.0.1:0
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1634<info> available addr: : fi_sockaddr_in6://[::1]:0
+libfabric:882999:tcp:core:util_getinfo_ifs():318<info> Chosen addr for using: 134.144.57.132, speed 25000
+libfabric:882999:core:core:ofi_layering_ok():1007<info> Skipping util;sockets layering
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_0
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_0-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_0-dgram
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_1
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_1-xrc
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1557<info> adding fi_info for domain: mlx5_1-dgram
+libfabric:882999:verbs:fabric:vrb_get_rai_id():283<info> rdma_create_id: Cannot allocate memory(12)
+libfabric:882999:verbs:fabric:vrb_get_match_infos():1781<info> handling of the socket address fails - -12
+libfabric:882999:tcp:core:ofi_get_list_of_addr():1776<info> Available addr: 134.144.57.132, iface name: enp33s0f0, speed: 25000
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1619<info> available addr: : fi_sockaddr_in://127.0.0.1:0
+libfabric:882999:tcp:core:ofi_insert_loopback_addr():1634<info> available addr: : fi_sockaddr_in6://[::1]:0
+libfabric:882999:tcp:core:util_getinfo_ifs():318<info> Chosen addr for using: 134.144.57.132, speed 25000
+libfabric:882999:sockets:core:ofi_get_list_of_addr():1776<info> Available addr: 134.144.57.132, iface name: enp33s0f0, speed: 25000
+libfabric:882999:sockets:core:ofi_insert_loopback_addr():1619<info> available addr: : fi_sockaddr_in://127.0.0.1:0
+libfabric:882999:sockets:core:ofi_insert_loopback_addr():1634<info> available addr: : fi_sockaddr_in6://[::1]:0
+libfabric:882999:sockets:core:util_getinfo_ifs():318<info> Chosen addr for using: 134.144.57.132, speed 25000
+libfabric:882999:sockets:core:ofi_get_list_of_addr():1776<info> Available addr: 134.144.57.132, iface name: enp33s0f0, speed: 25000
+libfabric:882999:sockets:core:ofi_insert_loopback_addr():1619<info> available addr: : fi_sockaddr_in://127.0.0.1:0
+libfabric:882999:sockets:core:ofi_insert_loopback_addr():1634<info> available addr: : fi_sockaddr_in6://[::1]:0
+libfabric:882999:sockets:core:util_getinfo_ifs():318<info> Chosen addr for using: 134.144.57.132, speed 25000
+libfabric:882999:sockets:core:ofi_get_list_of_addr():1776<info> Available addr: 134.144.57.132, iface name: enp33s0f0, speed: 25000
+libfabric:882999:sockets:core:ofi_insert_loopback_addr():1619<info> available addr: : fi_sockaddr_in://127.0.0.1:0
+libfabric:882999:sockets:core:ofi_insert_loopback_addr():1634<info> available addr: : fi_sockaddr_in6://[::1]:0
+libfabric:882999:sockets:core:util_getinfo_ifs():318<info> Chosen addr for using: 134.144.57.132, speed 25000
+libfabric:882999:core:core:fi_getinfo_():1138<info> Found provider with the highest priority psm2, must_use_util_prov = 0
+libfabric:882999:psm2:core:psmx2_getinfo():523<info> 
+libfabric:882999:psm2:core:psmx2_init_prov_info():221<info> Unsupported address format
+libfabric:882999:psm2:core:psmx2_init_prov_info():223<info> Supported: FI_ADDR_PSMX2
+libfabric:882999:psm2:core:psmx2_init_prov_info():225<info> Supported: FI_ADDR_STR
+libfabric:882999:psm2:core:psmx2_init_prov_info():227<info> Requested: FI_ADDR_MLX
+libfabric:882999:core:core:fi_getinfo_():1201<info> Start regular provider search because provider with the highest priority psm2 can not be initialized
+libfabric:882999:mlx:core:mlx_getinfo():211<info> primary detected device: mlx5_1 
+libfabric:882999:mlx:core:mlx_getinfo():254<info> used inject size = 1024 
+libfabric:882999:mlx:core:mlx_getinfo():301<info> Loaded MLX version 1.15.0
+libfabric:882999:mlx:core:mlx_getinfo():348<warn> MLX: spawn support 0 
+libfabric:882999:ofi_rxm:core:ofi_check_info():1056<info> address format not supported
+libfabric:882999:ofi_rxm:core:ofi_check_info():1058<info> Supported: FI_SOCKADDR
+libfabric:882999:ofi_rxm:core:ofi_check_info():1058<info> Requested: FI_ADDR_MLX
+libfabric:882999:ofi_rxm:core:ofi_check_info():1056<info> address format not supported
+libfabric:882999:ofi_rxm:core:ofi_check_info():1058<info> Supported: FI_SOCKADDR
+libfabric:882999:ofi_rxm:core:ofi_check_info():1058<info> Requested: FI_ADDR_MLX
+libfabric:882999:ofi_rxm:core:ofi_check_info():1056<info> address format not supported
+libfabric:882999:ofi_rxm:core:ofi_check_info():1058<info> Supported: FI_SOCKADDR
+libfabric:882999:ofi_rxm:core:ofi_check_info():1058<info> Requested: FI_ADDR_MLX
+libfabric:882999:ofi_rxm:core:ofi_check_info():1056<info> address format not supported
+libfabric:882999:ofi_rxm:core:ofi_check_info():1058<info> Supported: FI_SOCKADDR
+libfabric:882999:ofi_rxm:core:ofi_check_info():1058<info> Requested: FI_ADDR_MLX
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #1 mlx5_0
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_MSG
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #2 mlx5_0-xrc
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_MSG
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #3 mlx5_0-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #4 mlx5_1
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_MSG
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #5 mlx5_1-xrc
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_MSG
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:verbs:fabric:vrb_get_matching_info():1512<info> checking domain: #6 mlx5_1-dgram
+libfabric:882999:verbs:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:verbs:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:tcp:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:tcp:core:ofi_check_ep_type():659<info> Supported: FI_EP_MSG
+libfabric:882999:tcp:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:sockets:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:sockets:core:ofi_check_ep_type():659<info> Supported: FI_EP_DGRAM
+libfabric:882999:sockets:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:sockets:core:ofi_check_info():1056<info> address format not supported
+libfabric:882999:sockets:core:ofi_check_info():1058<info> Supported: FI_SOCKADDR
+libfabric:882999:sockets:core:ofi_check_info():1058<info> Requested: FI_ADDR_MLX
+libfabric:882999:sockets:core:ofi_check_ep_type():658<info> unsupported endpoint type
+libfabric:882999:sockets:core:ofi_check_ep_type():659<info> Supported: FI_EP_MSG
+libfabric:882999:sockets:core:ofi_check_ep_type():659<info> Requested: FI_EP_RDM
+libfabric:882999:mlx:core:mlx_fabric_open():172<info> 
+libfabric:882999:core:core:fi_fabric_():1423<info> Opened fabric: mlx
+libfabric:882999:mlx:core:ofi_check_rx_attr():786<info> Tx only caps ignored in Rx caps
+libfabric:882999:mlx:core:ofi_check_tx_attr():884<info> Rx only caps ignored in Tx caps
+libfabric:882999:mlx:core:ofi_check_rx_attr():786<info> Tx only caps ignored in Rx caps
+libfabric:882999:mlx:core:ofi_check_tx_attr():884<info> Rx only caps ignored in Tx caps
+libfabric:882999:mlx:core:mlx_cm_getname_mlx_format():73<info> Loaded UCP address: [336]...
+libfabric:882999:mlx:core:mlx_av_insert():179<warn> Try to insert address #0, offset=0 (size=1) fi_addr=0x1944da0 
+libfabric:882999:mlx:core:mlx_av_insert():189<warn> address inserted
+libfabric:882999:psm2:core:psmx2_fini():656<info> 
